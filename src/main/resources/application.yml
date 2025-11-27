@@ -25,13 +25,14 @@ spring:
     port: 465
     username: duongchu868@gmail.com
     password: "azgl tbvt dgkw qqel"  # Quote the password to be safe
+    protocol: smtps
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-          timeout: 
+          timeout:
           connectiontimeout: 5000
 
   servlet:
