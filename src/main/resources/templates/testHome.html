@@ -763,7 +763,7 @@
 
         const fetchJobs = async () => {
             try {
-                const res = await axios.get('http://localhost:8088/job/getAllJob');
+                const res = await axios.get('https://web-tuyen-dung-production.up.railway.app/job/getAllJob');
                 let data = res.data;
                 if (typeof data === 'string') data = JSON.parse(data);
                 if (Array.isArray(data)) {

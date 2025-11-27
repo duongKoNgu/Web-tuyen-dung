@@ -431,7 +431,7 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
             submitBtn.disabled = true;
 
-            axios.post('http://localhost:8088/job/createJob', newJob, {
+            axios.post('https://web-tuyen-dung-production.up.railway.app/job/createJob', newJob, {
                 withCredentials: true
             })
             .then(response => {

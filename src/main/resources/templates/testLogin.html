@@ -367,7 +367,7 @@
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
         btn.disabled = true;
 
-        axios.get("web-tuyen-dung-production.up.railway.app/user/userLogin", {
+        axios.get("https://web-tuyen-dung-production.up.railway.app/user/userLogin", {
             params: {
                 username: userName,
                 password: password
@@ -425,7 +425,7 @@
             role: regRole
         };
 
-        axios.post("web-tuyen-dung-production.up.railway.app/user/createUser", newUser, {
+        axios.post("https://web-tuyen-dung-production.up.railway.app/user/createUser", newUser, {
             withCredentials: true
         })
         .then(response => {

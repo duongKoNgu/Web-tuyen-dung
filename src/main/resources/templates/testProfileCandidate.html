@@ -413,7 +413,7 @@
         });
 
         function loadCandidateData() {
-            axios.get('http://localhost:8088/candidate/profile', {
+            axios.get('https://web-tuyen-dung-production.up.railway.app/candidate/profile', {
                     withCredentials: true
                 })
                 .then(response => {
@@ -614,10 +614,10 @@
             
             let url, method;
             if (isUpdateMode && currentCandidateId) {
-                url = `http://localhost:8088/candidate/updateCandidate/${currentCandidateId}`;
+                url = `https://web-tuyen-dung-production.up.railway.app/candidate/updateCandidate/${currentCandidateId}`;
                 method = 'put'; 
             } else {
-                url = "http://localhost:8088/candidate/add";
+                url = "https://web-tuyen-dung-production.up.railway.app/candidate/add";
                 method = 'post';
             }
 
