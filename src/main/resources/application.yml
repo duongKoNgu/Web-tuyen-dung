@@ -22,7 +22,7 @@ spring:
     show-sql: true
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: duongchu868@gmail.com
     password: "azgl tbvt dgkw qqel"  # Quote the password to be safe
     properties:
@@ -31,6 +31,8 @@ spring:
           auth: true
           starttls:
             enable: true
+          timeout: 
+          connectiontimeout: 5000
 
   servlet:
     multipart:

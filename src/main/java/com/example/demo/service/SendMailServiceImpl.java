@@ -62,7 +62,7 @@ public class SendMailServiceImpl implements SendMailService {
 
             helper.setFrom(fromEmail);
             helper.setTo(candidate.getEmail());
-            helper.setSubject("🎯 Exciting Job Opportunity - " + job.getTitle());
+            helper.setSubject(" Exciting Job Opportunity - " + job.getTitle());
 
             // Prepare Thymeleaf context with variables
             Context context = new Context();
