@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ ứng viên - DG Jobs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        /* --- SUNSET THEME VARIABLES --- */
+        :root {
+            --grad-primary: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            --grad-hover: linear-gradient(135deg, #FF4757 0%, #FF6B6B 100%);
+            --color-orange: #FF6B6B;
+            --color-pink: #FF4757;
+            --bg-body: #FFFBFB;
+            --text-dark: #2D3436;
+            --text-sub: #636E72;
+            --shadow-soft: 0 20px 60px rgba(255, 107, 107, 0.15);
+            --radius: 24px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-body);
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND ORBS --- */
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            overflow: hidden; pointer-events: none;
+        }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #FFEAA7; top: -100px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #FFD3E0; bottom: 10%; right: -50px; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(30px, 30px); } }
+
+        /* --- HEADER --- */
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .nav {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 2rem; font-weight: 800; letter-spacing: -1px;
+            background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-menu { display: flex; list-style: none; gap: 1rem; }
+        .nav-menu a {
+            color: var(--text-sub); text-decoration: none; font-weight: 600;
+            padding: 0.5rem 1rem; border-radius: 50px; transition: all 0.3s;
+        }
+        .nav-menu a:hover { color: var(--color-orange); background: #FFF0F0; transform: translateY(-2px); }
+        .nav-menu a[href*="Profile"] { 
+            background: var(--grad-primary); color: white !important; 
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .mobile-menu-btn {
+            display: none; background: none; border: none;
+            color: var(--color-orange); font-size: 1.5rem; cursor: pointer;
+        }
+
+        /* --- CONTAINER & PAGE HEADER --- */
+        .container {
+            max-width: 900px; margin: 3rem auto;
+            background: white; border-radius: var(--radius);
+            box-shadow: var(--shadow-soft); overflow: hidden;
+            border: 1px solid #FFF0F0; position: relative;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #FFF0F0 0%, #FFEAA7 50%, #FFF 100%);
+            padding: 3rem 2rem; text-align: center;
+            border-bottom: 1px solid #FFEAA7;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
+            background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p { font-size: 1.1rem; color: var(--text-sub); }
+
+        /* --- FORM STYLES --- */
+        .form-container { padding: 3rem; }
+        
+        .progress-bar {
+            height: 6px; background: #F5F6FA; border-radius: 10px; overflow: hidden; margin-bottom: 3rem;
+        }
+        .progress-fill {
+            height: 100%; background: var(--grad-primary); width: 0%;
+            transition: width 0.5s ease; border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: 1.4rem; font-weight: 700; color: var(--text-dark);
+            margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #FFF0F0; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .section-title i { color: var(--color-orange); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; position: relative; }
+        .form-group.full-width { grid-column: 1 / -1; }
+
+        .form-label {
+            display: block; font-weight: 600; color: var(--text-dark);
+            margin-bottom: 0.5rem; font-size: 0.95rem;
+        }
+        .form-label.required::after { content: ' *'; color: var(--color-pink); }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%; padding: 0.9rem 1rem;
+            border: 2px solid #F5F6FA; border-radius: 12px;
+            font-size: 1rem; transition: all 0.3s ease;
+            background: #FDFDFD; font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none; border-color: var(--color-orange); background: white;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+        }
+
+        /* Radio Buttons */
+        .radio-group { display: flex; gap: 2rem; margin-top: 0.8rem; }
+        .radio-item { display: flex; align-items: center; cursor: pointer; }
+        .radio-input {
+            appearance: none; width: 22px; height: 22px;
+            border: 2px solid #CBD5E0; border-radius: 50%;
+            margin-right: 0.75rem; position: relative; transition: all 0.3s;
+        }
+        .radio-input:checked { border-color: var(--color-orange); background: var(--color-orange); }
+        .radio-input:checked::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 8px; height: 8px; background: white; border-radius: 50%;
+        }
+        .radio-label { color: var(--text-sub); font-weight: 500; cursor: pointer; }
+
+        /* File Upload */
+        .file-upload { position: relative; width: 100%; }
+        .file-input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+        .file-label {
+            display: flex; align-items: center; justify-content: center;
+            padding: 3rem; border: 2px dashed #CBD5E0; border-radius: 16px;
+            background: #F8FAFC; transition: all 0.3s; text-align: center;
+        }
+        .file-label:hover { border-color: var(--color-orange); background: #FFF0F0; }
+        .file-icon { font-size: 2.5rem; margin-bottom: 0.5rem; color: #CBD5E0; transition: 0.3s; }
+        .file-label:hover .file-icon { color: var(--color-orange); }
+        
+        .file-upload.has-file .file-label {
+            border-color: #00B894; background: #F0FFF4;
+        }
+        .file-upload.has-file .file-icon { color: #00B894; }
+
+        /* Buttons */
+        .btn-group {
+            display: flex; gap: 1rem; justify-content: center; margin-top: 3rem;
+            padding-top: 2rem; border-top: 1px solid #F5F6FA;
+        }
+        .btn {
+            padding: 1rem 3rem; border: none; border-radius: 50px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease; font-family: 'Outfit', sans-serif;
+        }
+        .btn-primary {
+            background: var(--grad-primary); color: white;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px); background: var(--grad-hover);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+        .btn-secondary { background: #F5F6FA; color: var(--text-sub); }
+        .btn-secondary:hover { background: #E2E8F0; color: var(--text-dark); }
+
+        /* Validation & Messages */
+        .validation-message { color: var(--color-pink); font-size: 0.85rem; margin-top: 0.5rem; display: none; font-weight: 500; }
+        .form-input.error { border-color: var(--color-pink); background: #FFF5F5; }
+        
+        .success-message {
+            background: #D1F2EB; color: #0E6251; padding: 1rem; border-radius: 12px;
+            margin-bottom: 2rem; display: none; text-align: center; font-weight: 600;
+            border: 1px solid #A3E4D7;
+        }
+
+        /* Animation */
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .form-section { animation: slideInUp 0.6s ease forwards; opacity: 0; }
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+        .form-section:nth-child(3) { animation-delay: 0.3s; }
+        .form-section:nth-child(4) { animation-delay: 0.4s; }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none; position: absolute; top: 100%; left: 0; right: 0;
+                background: white; flex-direction: column; padding: 2rem;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.1); gap: 1rem;
+            }
+            .nav-menu.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .container { margin: 1rem; border-radius: 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-container { padding: 1.5rem; }
+            .radio-group { flex-direction: column; gap: 1rem; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">DG Jobs</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
+                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
+                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testProfileCandidate.html">Cập nhật hồ sơ</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Hồ sơ ứng viên</h1>
+            <p>Hoàn thiện thông tin để nhà tuyển dụng dễ dàng tìm thấy bạn</p>
+        </div>
+
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <i class="fa-solid fa-check-circle"></i> Thông tin đã được lưu thành công!
+            </div>
+
+            <form id="candidateForm">
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fa-regular fa-id-card"></i> Thông tin cá nhân</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required" for="name">Họ và tên</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Nhập họ và tên đầy đủ" required>
+                            <div class="validation-message" data-for="name">Vui lòng nhập họ và tên</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="example@email.com" required>
+                            <div class="validation-message" data-for="email">Vui lòng nhập email hợp lệ</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required" for="phone">Số điện thoại</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="0123 456 789" required>
+                            <div class="validation-message" data-for="phone">Vui lòng nhập số điện thoại hợp lệ</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="bday">Ngày sinh</label>
+                            <input type="date" id="bday" name="bday" class="form-input" required>
+                            <div class="validation-message" data-for="bday">Vui lòng chọn ngày sinh</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required">Giới tính</label>
+                        <div class="radio-group" id="genderGroup">
+                            <div class="radio-item">
+                                <input type="radio" id="male" name="gender" value="Nam" class="radio-input" required>
+                                <label for="male" class="radio-label">Nam</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="female" name="gender" value="Nữ" class="radio-input" required>
+                                <label for="female" class="radio-label">Nữ</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="other" name="gender" value="Khác" class="radio-input" required>
+                                <label for="other" class="radio-label">Khác</label>
+                            </div>
+                        </div>
+                        <div class="validation-message" data-for="gender">Vui lòng chọn giới tính</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fa-solid fa-map-location-dot"></i> Thông tin liên hệ</h2>
+                    <div class="form-group full-width">
+                        <label class="form-label required" for="address">Địa chỉ</label>
+                        <textarea id="address" name="address" class="form-textarea" placeholder="Nhập địa chỉ chi tiết (số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố)" required></textarea>
+                        <div class="validation-message" data-for="address">Vui lòng nhập địa chỉ</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fa-solid fa-briefcase"></i> Thông tin nghề nghiệp</h2>
+                    <div class="form-group">
+                        <label class="form-label required" for="status">Trạng thái tìm việc</label>
+                        <select id="status" name="status" class="form-select" required>
+                            <option value="">Chọn trạng thái</option>
+                            <option value="Đang tìm việc">Đang tìm việc</option>
+                            <option value="Đang làm việc nhưng tìm cơ hội mới">Đang làm việc nhưng tìm cơ hội mới</option>
+                            <option value="Không tìm việc">Không tìm việc</option>
+                            <option value="Sẵn sàng nhận việc ngay">Sẵn sàng nhận việc ngay</option>
+                        </select>
+                        <div class="validation-message" data-for="status">Vui lòng chọn trạng thái tìm việc</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fa-solid fa-file-pdf"></i> Tải lên CV</h2>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="cv">CV/Hồ sơ của bạn</label>
+                        <div class="file-upload" id="fileUpload">
+                            <input type="file" id="cv" name="cv" class="file-input" accept=".pdf,.doc,.docx" onchange="handleFileUpload(this)">
+                            <label for="cv" class="file-label">
+                                <div>
+                                    <div class="file-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                    <div class="file-text">
+                                        <strong>Kéo thả file vào đây hoặc click để chọn</strong><br>
+                                        <small>Hỗ trợ định dạng: PDF, DOC, DOCX (tối đa 5MB)</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <i class="fa-solid fa-rotate-left"></i> Làm mới
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu thông tin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const icon = mobileMenuBtn.querySelector('i');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            if(navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        const form = document.getElementById('candidateForm');
+        const progressFill = document.getElementById('progressFill');
+        const successMessage = document.getElementById('successMessage');
+
+        let currentCandidateId = null;
+        let isUpdateMode = false;
+        let userId = null;
+
+        function cleanStatus(status) {
+            if (!status) return '';
+            let cleaned = status.replace(/Ðang tìm vi\?c/g, 'Đang tìm việc');
+            cleaned = cleaned.replace(/Ðang làm vi\?c nhưng tìm c\? h\?i m\?i/g, 'Đang làm việc nhưng tìm cơ hội mới');
+            return cleaned;
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            loadCandidateData();
+        });
+
+        function loadCandidateData() {
+            axios.get('http://localhost:8088/candidate/profile', {
+                    withCredentials: true
+                })
+                .then(response => {
+                    const candidate = response.data;
+
+                    if (candidate && (candidate.candidateId || candidate.name)) {
+                        isUpdateMode = true;
+                        currentCandidateId = candidate.candidateId || 1;
+
+                        if (candidate.userCandidate && candidate.userCandidate.idUser) {
+                            userId = candidate.userCandidate.idUser;
+                        }
+
+                        document.getElementById('name').value = candidate.name || '';
+                        document.getElementById('email').value = candidate.email || '';
+                        document.getElementById('phone').value = candidate.phone || '';
+                        document.getElementById('bday').value = candidate.bday || '';
+                        document.getElementById('address').value = candidate.address || '';
+                        
+                        const cleanedStatus = cleanStatus(candidate.status);
+                        document.getElementById('status').value = cleanedStatus;
+
+                        if (candidate.gender) {
+                            const genderValue = cleanStatus(candidate.gender);
+                            const genderRadio = document.querySelector(`input[name="gender"][value="${genderValue}"]`);
+                            if (genderRadio) {
+                                genderRadio.checked = true;
+                            }
+                        }
+
+                        if (candidate.cv) {
+                            const fileUpload = document.getElementById('fileUpload');
+                            const fileText = fileUpload.querySelector('.file-text');
+                            fileUpload.classList.add('has-file');
+                            fileText.innerHTML = `<strong><i class="fa-solid fa-file-check"></i> ${candidate.cv}</strong><br><small>File hiện tại - Upload file mới để thay thế</small>`;
+                        }
+
+                        document.querySelector('.btn-primary').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Cập nhật thông tin';
+                        updateProgress();
+                    } else {
+                        isUpdateMode = false;
+                        currentCandidateId = null;
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Lỗi khi load candidate:', error);
+                    isUpdateMode = false;
+                    currentCandidateId = null;
+                });
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\d{10,11}$/;
+
+            form.querySelectorAll('.validation-message').forEach(msg => msg.style.display = 'none');
+            form.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => input.classList.remove('error'));
+
+            requiredFields.forEach(field => {
+                let fieldValue = field.value.trim();
+                let isFieldValid = true;
+
+                if (field.type === 'radio') {
+                    const radioGroup = form.querySelectorAll(`input[name="${field.name}"]`);
+                    isFieldValid = Array.from(radioGroup).some(radio => radio.checked);
+                } else if (field.tagName === 'SELECT') {
+                    isFieldValid = fieldValue !== '';
+                } else {
+                    isFieldValid = fieldValue !== '';
+
+                    if (isFieldValid && field.id === 'email' && !emailRegex.test(fieldValue)) {
+                        isFieldValid = false;
+                        field.nextElementSibling.textContent = 'Email không hợp lệ.';
+                    } else if (isFieldValid && field.id === 'phone' && !phoneRegex.test(fieldValue)) {
+                        isFieldValid = false;
+                        field.nextElementSibling.textContent = 'Số điện thoại phải là 10-11 chữ số.';
+                    } else if (isFieldValid && field.id === 'bday') {
+                        const today = new Date().toISOString().split('T')[0];
+                        if (fieldValue >= today) {
+                            isFieldValid = false;
+                            field.nextElementSibling.textContent = 'Ngày sinh không được ở tương lai.';
+                        }
+                    }
+                }
+
+                if (!isFieldValid) {
+                    isValid = false;
+                    if (field.type === 'radio') {
+                        const groupDiv = field.closest('.form-group');
+                        const errorMsg = groupDiv.querySelector('.validation-message[data-for="gender"]');
+                        if (errorMsg) errorMsg.style.display = 'block';
+                    } else {
+                        field.classList.add('error');
+                        field.nextElementSibling.style.display = 'block';
+                    }
+                }
+            });
+
+            return isValid;
+        }
+
+        function updateProgress() {
+            const requiredFields = form.querySelectorAll('[required]:not([type="radio"])');
+            const radioGroups = new Set();
+            form.querySelectorAll('input[type="radio"][required]').forEach(radio => radioGroups.add(radio.name));
+
+            let totalRequired = requiredFields.length + radioGroups.size;
+            let filledCount = 0;
+
+            requiredFields.forEach(field => {
+                if (field.value.trim() !== '') {
+                    filledCount++;
+                }
+            });
+
+            radioGroups.forEach(name => {
+                if (form.querySelector(`input[name="${name}"]:checked`)) {
+                    filledCount++;
+                }
+            });
+
+            const progress = (filledCount / totalRequired) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        function handleFileUpload(input) {
+            const fileUpload = document.getElementById('fileUpload');
+            const fileText = fileUpload.querySelector('.file-text');
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File quá lớn! Vui lòng chọn file nhỏ hơn 5MB');
+                    input.value = '';
+                    fileUpload.classList.remove('has-file');
+                    fileText.innerHTML = `<strong>Kéo thả file vào đây hoặc click để chọn</strong><br><small>Hỗ trợ định dạng: PDF, DOC, DOCX (tối đa 5MB)</small>`;
+                    return;
+                }
+
+                fileUpload.classList.add('has-file');
+                fileText.innerHTML = `<strong><i class="fa-solid fa-file-check"></i> ${file.name}</strong><br><small>Kích thước: ${fileSize}MB</small>`;
+            } else if (!isUpdateMode || !form.dataset.cvFile) {
+                fileUpload.classList.remove('has-file');
+                fileText.innerHTML = `<strong>Kéo thả file vào đây hoặc click để chọn</strong><br><small>Hỗ trợ định dạng: PDF, DOC, DOCX (tối đa 5MB)</small>`;
+            }
+        }
+
+        function resetForm() {
+            form.reset();
+            form.querySelectorAll('.validation-message').forEach(msg => msg.style.display = 'none');
+            form.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => input.classList.remove('error'));
+
+            const fileUpload = document.getElementById('fileUpload');
+            const fileText = fileUpload.querySelector('.file-text');
+
+            fileUpload.classList.remove('has-file');
+            fileText.innerHTML = `<strong>Kéo thả file vào đây hoặc click để chọn</strong><br><small>Hỗ trợ định dạng: PDF, DOC, DOCX (tối đa 5MB)</small>`;
+            progressFill.style.width = '0%';
+            successMessage.style.display = 'none';
+
+            loadCandidateData();
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            successMessage.style.display = 'none';
+
+            if (!validateForm()) {
+                alert('Vui lòng hoàn thành và kiểm tra lại các trường bị lỗi!');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('bday', document.getElementById('bday').value);
+            formData.append('status', document.getElementById('status').value);
+
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (gender) {
+                formData.append('gender', gender.value);
+            }
+
+            const cvFile = document.getElementById('cv').files[0];
+            if (cvFile) {
+                formData.append('cv', cvFile);
+            }
+            
+            if (isUpdateMode && currentCandidateId) {
+                 formData.append('candidateId', currentCandidateId);
+            }
+            
+            let url, method;
+            if (isUpdateMode && currentCandidateId) {
+                url = `http://localhost:8088/candidate/updateCandidate/${currentCandidateId}`;
+                method = 'put'; 
+            } else {
+                url = "http://localhost:8088/candidate/add";
+                method = 'post';
+            }
+
+            axios({
+                method: method,
+                url: url,
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true 
+            })
+            .then(response => {
+                const responseMessage = (typeof response.data === 'string') ? response.data : 'Xử lý thành công';
+
+                if (responseMessage.includes("thành công") || response.status === 200 || response.status === 201) {
+                    successMessage.style.display = 'block';
+                    successMessage.innerHTML = isUpdateMode
+                        ? '<i class="fa-solid fa-check-circle"></i> Cập nhật thông tin thành công!'
+                        : '<i class="fa-solid fa-check-circle"></i> Thêm thông tin thành công!';
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+
+                    setTimeout(() => { successMessage.style.display = 'none'; }, 4000);
+                    loadCandidateData();
+                } else {
+                    alert(responseMessage);
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi:", error);
+                let errorMessage = 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau.';
+                if (error.response && error.response.data) {
+                    errorMessage = (typeof error.response.data === 'string') ? error.response.data : 'Có lỗi xảy ra từ server';
+                }
+                alert(errorMessage);
+            });
+        });
+
+        form.addEventListener('input', updateProgress);
+        form.addEventListener('change', updateProgress);
+    </script>
+</body>
+</html>

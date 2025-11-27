@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DG Jobs - Sunset Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- SUNSET THEME VARIABLES --- */
+        :root {
+            /* Gradient chủ đạo: Cam pha Hồng */
+            --grad-primary: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            --grad-hover: linear-gradient(135deg, #FF4757 0%, #FF6B6B 100%);
+
+            --color-orange: #FF6B6B;
+            --color-pink: #FF4757;
+            --color-accent: #FFD3B6;
+            /* Màu da cam nhạt */
+
+            /* Nền và Chữ */
+            --bg-body: #FFFBFB;
+            /* Trắng pha chút xíu hồng cam cho ấm */
+            --bg-card: #FFFFFF;
+            --text-dark: #2D3436;
+            /* Xám than đậm */
+            --text-sub: #636E72;
+
+            --shadow-soft: 0 10px 30px rgba(255, 107, 107, 0.15);
+            --radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            /* Font Outfit tròn trịa hơn, hợp với style trẻ trung */
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- BACKGROUND ORBS (Tông ấm) --- */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.5;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: #FFEAA7;
+            /* Vàng nhạt */
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #FAB1A0;
+            /* Cam nhạt */
+            bottom: 10%;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: #FFD3E0;
+            /* Hồng nhạt */
+            top: 40%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* --- HEADER --- */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            /* Gradient Text */
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.8rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.7rem 1.4rem;
+            border-radius: 100px;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover {
+            background: #FFF0F0;
+            color: var(--color-pink);
+        }
+
+        .nav-menu a.btn-highlight {
+            background: var(--grad-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .nav-menu a.btn-highlight:hover {
+            background: var(--grad-hover);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            color: var(--color-orange);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Hiệu ứng gạch chân cong cong vui mắt */
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 50 20 100 10' stroke='%23FFD3B6' stroke-width='5' fill='none' /%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            margin-bottom: 3rem;
+            max-width: 650px;
+            margin-inline: auto;
+        }
+
+        /* Search Bar "Sunset Style" */
+        .search-container {
+            background: white;
+            padding: 0.6rem;
+            border-radius: 100px;
+            display: flex;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 20px 50px -10px rgba(255, 107, 107, 0.2);
+            border: 2px solid #FFF0F0;
+            transition: all 0.3s;
+        }
+
+        .search-container:focus-within {
+            border-color: var(--color-orange);
+            transform: scale(1.02);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 0 1.5rem;
+            font-size: 1.1rem;
+            outline: none;
+            color: var(--text-dark);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .search-btn {
+            background: var(--grad-primary);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 100px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .search-btn:hover {
+            background: var(--grad-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        /* --- CAROUSEL --- */
+        .companies {
+            padding: 3rem 0;
+            background: white;
+            margin-top: 4rem;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .companies-container {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .companies h2 {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .companies-carousel {
+            display: flex;
+            width: 100%;
+        }
+
+        .companies-track {
+            display: flex;
+            gap: 5rem;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+
+        .company-item {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .company-item:hover {
+            color: transparent;
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scale(1.1);
+        }
+
+        @keyframes scroll {
+            to {
+                transform: translateX(calc(-50% - 2.5rem));
+            }
+        }
+
+        /* --- JOBS --- */
+        .jobs {
+            padding: 5rem 2rem;
+        }
+
+        .jobs h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            border: 1px solid #FFF0F0;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .job-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-soft);
+            border-color: var(--color-accent);
+        }
+
+        /* Viền trái màu gradient */
+        .job-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 4px;
+            background: var(--grad-primary);
+            border-radius: 0 10px 10px 0;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .job-card:hover::before {
+            opacity: 1;
+            top: 15%;
+            height: 70%;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .company-avatar {
+            width: 56px;
+            height: 56px;
+            /* Gradient background nhạt */
+            background: linear-gradient(135deg, #FFF0F0 0%, #FFEAA7 100%);
+            color: var(--color-orange);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .job-card:hover .job-title {
+            color: var(--color-pink);
+        }
+
+        .company-name {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .tag {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .tag-salary {
+            background: #FFF0F0;
+            color: var(--color-pink);
+        }
+
+        .tag-loc {
+            background: #F5F6FA;
+            color: var(--text-sub);
+        }
+
+        .view-all-btn {
+            display: block;
+            margin: 4rem auto 0;
+            background: white;
+            color: var(--color-orange);
+            border: 2px solid var(--color-orange);
+            padding: 1rem 3.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-all-btn:hover {
+            background: var(--grad-primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: white;
+            padding: 5rem 2rem 2rem;
+            border-top: 5px solid;
+            border-image: var(--grad-primary) 1;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .footer-section a {
+            color: var(--text-sub);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            color: var(--color-orange);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #B2BEC3;
+            padding-top: 2rem;
+            border-top: 1px solid #F5F6FA;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 20px 20px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                border-radius: 20px;
+                padding: 1rem;
+                border: 1px solid #eee;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.2);
+            z-index: 2000;
+            display: none;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        #message-close {
+            margin-top: 1.5rem;
+            background: var(--grad-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="logo"><i class="fa-solid fa-fire-flame-curved"></i> DG Jobs</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#">Khám phá</a></li>
+                <li><a href="#">Công ty hot</a></li>
+                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testProfileCandidate.html" class="btn-highlight">Profile</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Đốt cháy đam mê<br><span>Sự nghiệp rực rỡ</span></h1>
+            <p>Kết nối ngay với các cơ hội việc làm hấp dẫn nhất. Đừng để tài năng của bạn ngủ quên.</p>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Bạn muốn làm việc ở đâu?">
+                <button class="search-btn"><i class="fa-solid fa-search"></i> Tìm kiếm</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="companies">
+        <div class="companies-container">
+            <h2>Top Employer</h2>
+            <div class="companies-carousel">
+                <div class="companies-track">
+                    <div class="company-item">GOOGLE</div>
+                    <div class="company-item">TIKTOK</div>
+                    <div class="company-item">SHOPEE</div>
+                    <div class="company-item">SAMSUNG</div>
+                    <div class="company-item">VIETTEL</div>
+                    <div class="company-item">FPT</div>
+                    <div class="company-item">VNG</div>
+                    <div class="company-item">GOOGLE</div>
+                    <div class="company-item">TIKTOK</div>
+                    <div class="company-item">SHOPEE</div>
+                    <div class="company-item">SAMSUNG</div>
+                    <div class="company-item">VIETTEL</div>
+                    <div class="company-item">FPT</div>
+                    <div class="company-item">VNG</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="jobs" id="tim-viec">
+        <div class="jobs-container">
+            <h2>Việc làm đang Hot</h2>
+            <div class="jobs-grid" id="jobs-grid"></div>
+            <p id="loading-message" style="text-align: center; color: #636E72; margin-top: 1rem;">Đang tải danh sách...
+            </p>
+            <button class="view-all-btn">Xem thêm việc làm</button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DG Jobs</h3>
+                    <p>Khởi đầu hành trình mới.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên kết</h3>
+                    <a href="#">Về chúng tôi</a>
+                    <a href="#">Liên hệ</a>
+                    <a href="#">Bảo mật</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Cộng đồng</h3>
+                    <a href="#">Facebook</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Instagram</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Dành cho nhà tuyển dụng</h3>
+                    <a href="http://localhost:5500/templates/controlJob.html">Quản lý Job</a>
+                    <a href="controlCandidate.html">Quản lý ứng viên</a>
+
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DG Jobs. Made with love.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="message-box">
+        <div id="message-content"></div>
+        <button id="message-close">Đóng</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // --- CẤU HÌNH ---
+        const ITEMS_PER_BATCH = 2; // Bạn đang muốn test 2 job một lần
+        let allJobsData = [];
+        let currentJobList = [];
+        let renderedCount = 0;
+
+        // --- CÁC HÀM TIỆN ÍCH ---
+        const showMessage = (msg) => {
+            const box = document.getElementById('message-box');
+            document.getElementById('message-content').innerText = msg;
+            box.style.display = 'block';
+        }
+        document.getElementById('message-close').onclick = () => document.getElementById('message-box').style.display = 'none';
+
+        // Hàm tạo HTML cho Job Card
+        function createJobCard(job) {
+            const jobCard = document.createElement('div');
+            jobCard.className = 'job-card';
+            // Animation CSS đã chuẩn, không cần sửa
+            jobCard.style.animation = 'fadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards';
+
+            jobCard.onclick = () => window.location.href = `jobDetail.html?id=${job.jobId}`;
+
+            const companyName = job.companyName || 'Công ty';
+            const avatarChar = companyName.substring(0, 1).toUpperCase();
+            const salary = (job.salaryFrom && job.salaryTo) ? `${job.salaryFrom}-${job.salaryTo} tr` : 'Thỏa thuận';
+
+            jobCard.innerHTML = `
+                <div class="job-header">
+                    <div class="company-avatar">${avatarChar}</div>
+                    <div style="flex:1; margin-left: 1rem;">
+                        <div class="job-title">${job.title || 'Tuyển dụng'}</div>
+                        <div class="company-name">${companyName}</div>
+                    </div>
+                </div>
+                <div class="job-tags">
+                    <span class="tag tag-salary"><i class="fa-solid fa-fire"></i> ${salary}</span>
+                    <span class="tag tag-loc"><i class="fa-solid fa-map-pin"></i> ${job.address || 'VN'}</span>
+                </div>
+            `;
+            return jobCard;
+        }
+
+        // Hàm Render Job ra màn hình
+        const renderMoreJobs = () => {
+            const grid = document.getElementById('jobs-grid');
+            const btn = document.querySelector('.view-all-btn');
+            const msg = document.getElementById('loading-message');
+
+            // Tính toán số lượng job cần lấy tiếp theo
+            const next = renderedCount + ITEMS_PER_BATCH;
+            const toRender = currentJobList.slice(renderedCount, next);
+
+            if (toRender.length > 0) {
+                msg.style.display = 'none';
+                toRender.forEach(job => grid.appendChild(createJobCard(job)));
+                renderedCount += toRender.length;
+            }
+
+            // Logic ẩn/hiện nút
+            if (renderedCount >= currentJobList.length) {
+                btn.style.display = 'none'; // Ẩn nút nếu hết job
+                if (currentJobList.length === 0) {
+                    msg.style.display = 'block';
+                    msg.innerText = 'Không tìm thấy kết quả.';
+                }
+            } else {
+                btn.style.display = 'block'; // Hiện nút nếu còn job
+            }
+        };
+
+        const fetchJobs = async () => {
+            try {
+                const res = await axios.get('http://localhost:8088/job/getAllJob');
+                let data = res.data;
+                if (typeof data === 'string') data = JSON.parse(data);
+                if (Array.isArray(data)) {
+                    allJobsData = data;
+                    currentJobList = data;
+                    renderMoreJobs();
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('loading-message').innerText = 'Lỗi kết nối.';
+                document.querySelector('.view-all-btn').style.display = 'none';
+            }
+        };
+
+        // --- CÁC SỰ KIỆN (EVENT LISTENERS) ---
+
+        // 1. [QUAN TRỌNG] Sự kiện click cho nút Xem Thêm (Phần bạn bị thiếu)
+        document.querySelector('.view-all-btn').addEventListener('click', (e) => {
+            e.preventDefault(); // Ngăn trang web bị nhảy lên đầu
+            renderMoreJobs();   // Gọi hàm để hiển thị thêm job
+        });
+
+        // 2. Sự kiện tìm kiếm
+        document.querySelector('.search-btn').onclick = () => {
+            const val = document.querySelector('.search-input').value.toLowerCase().trim();
+            currentJobList = val ? allJobsData.filter(j =>
+                (j.companyName?.toLowerCase().includes(val)) || (j.title?.toLowerCase().includes(val))
+            ) : allJobsData;
+
+            // Reset lại lưới khi tìm kiếm
+            renderedCount = 0;
+            document.getElementById('jobs-grid').innerHTML = '';
+            renderMoreJobs();
+        };
+
+        // 3. Mobile menu
+        document.getElementById('mobileMenuBtn').onclick = () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        };
+
+        // Chạy khi tải trang
+        document.addEventListener('DOMContentLoaded', fetchJobs);
+    </script>
+</body>
+
+</html>

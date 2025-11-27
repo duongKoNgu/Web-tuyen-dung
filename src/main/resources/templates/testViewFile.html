@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra File CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #a7bfe8, #619a9d);
+            padding: 1rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+        .message-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 500;
+            display: none;
+        }
+        .message-box.error {
+            background-color: #f56565;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Kiểm tra File CV</h1>
+        <p class="text-gray-600 mb-6">Nhập tên file CV và nhấn "Xem" để kiểm tra.</p>
+        
+        <div class="input-group">
+            <label for="filename">Tên File CV:</label>
+            <input type="text" id="filename" placeholder="Ví dụ: my_cv.pdf">
+        </div>
+        
+        <button id="viewBtn" class="btn">Xem File</button>
+
+        <div id="message" class="message-box"></div>
+    </div>
+
+    <script>
+        document.getElementById('viewBtn').addEventListener('click', function() {
+            const filename = document.getElementById('filename').value.trim();
+            const messageBox = document.getElementById('message');
+            
+            if (filename === '') {
+                messageBox.style.display = 'block';
+                messageBox.textContent = 'Vui lòng nhập tên file.';
+                messageBox.className = 'message-box error';
+                return;
+            }
+
+            // Xóa thông báo lỗi cũ
+            messageBox.style.display = 'none';
+
+            // Tạo URL để gọi API backend
+            const backendUrl = `http://localhost:8088/candidate/cv/${filename}`;
+            
+            // Mở file trong tab mới
+            window.open(backendUrl, '_blank');
+        });
+    </script>
+</body>
+</html>

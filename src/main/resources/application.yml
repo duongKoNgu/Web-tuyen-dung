@@ -1,0 +1,42 @@
+server:
+  port: 8088
+
+## Move debug to root level
+#debug: true
+#
+## Move logging to root level
+#logging:
+#  level:
+#    org.springframework.boot.autoconfigure: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://dgkongu.mssql.somee.com;databaseName=dgkongu;encrypt=true;trustServerCertificate=true;
+    username: DgKoNgu_SQLLogin_1
+    password: "4i2kepqbee"
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: duongchu868@gmail.com
+    password: "azgl tbvt dgkw qqel"  # Quote the password to be safe
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# Custom property (if this is what you intended)
+file:
+  upload-dir: "C:\\Users\\DG\\Desktop\\SAVE_FILE"

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Opportunity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #FFFBFB; /* Nền trắng ấm */
+            color: #2D3436;
+        }
+        
+        /* Container chính */
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); /* Bóng màu cam nhạt */
+            border: 1px solid #FFF0F0;
+        }
+
+        /* Header Gradient Sunset */
+        .header {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* Content Body */
+        .content {
+            padding: 40px 30px;
+            color: #2D3436;
+            line-height: 1.6;
+        }
+
+        .greeting {
+            font-size: 20px;
+            color: #FF6B6B; /* Màu cam chủ đạo */
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Job Card Styling */
+        .job-card {
+            background-color: #FFF9F9; /* Nền hồng phấn cực nhạt */
+            border: 1px solid #FFEAA7; /* Viền vàng nhạt */
+            border-left: 5px solid #FF6B6B; /* Thanh nhấn bên trái màu cam */
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+        }
+        .job-card h2 {
+            color: #2D3436;
+            margin: 0 0 20px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .job-detail {
+            display: flex; /* Lưu ý: Một số client Outlook cũ có thể ko nhận flex, nhưng chấp nhận được cho layout đơn giản */
+            margin: 12px 0;
+            align-items: center;
+        }
+        .job-detail-label {
+            font-weight: 600;
+            color: #636E72;
+            min-width: 140px;
+            display: inline-block;
+        }
+        .job-detail-value {
+            color: #2D3436;
+            font-weight: 500;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            background-color: #E3FCEF; /* Xanh ngọc nhạt */
+            color: #00B894; /* Xanh lá đậm */
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white !important;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 50px; /* Bo tròn pill shape */
+            margin: 25px 0;
+            font-weight: 700;
+            text-align: center;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #FFEAA7;
+            margin: 30px 0;
+            opacity: 0.5;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #FFF0F0; /* Nền footer hồng nhạt ấm áp */
+            color: #636E72;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #FFD3E0;
+        }
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #FF6B6B; /* Fallback */
+            display: inline-block;
+        }
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: #B2BEC3;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>🚀 Cơ Hội Nghề Nghiệp</h1>
+        <p>Thăng tiến sự nghiệp cùng chúng tôi</p>
+    </div>
+
+    <div class="content">
+        <p class="greeting">Xin chào <span th:text="${candidateName}">Candidate</span>,</p>
+
+        <p>Chúng tôi rất vui mừng thông báo rằng hồ sơ của bạn rất phù hợp với vị trí mà chúng tôi đang tìm kiếm. Đây có thể là bước ngoặt tuyệt vời cho sự nghiệp của bạn!</p>
+
+        <div class="job-card">
+            <h2 th:text="${jobTitle}">Job Title</h2>
+
+            <div class="job-detail">
+                <span class="job-detail-label">🏢 Công ty:</span>
+                <span class="job-detail-value" th:text="${companyName}">Company Name</span>
+            </div>
+
+            <div class="job-detail">
+                <span class="job-detail-label">📊 Cấp bậc:</span>
+                <span class="job-detail-value" th:text="${level}">Senior</span>
+            </div>
+
+            <div class="job-detail">
+                <span class="job-detail-label">📍 Địa điểm:</span>
+                <span class="job-detail-value" th:text="${workingAddress}">Address</span>
+            </div>
+
+            <div class="job-detail">
+                <span class="job-detail-label">✅ Trạng thái:</span>
+                <span class="status-badge">ĐÃ DUYỆT HỒ SƠ</span>
+            </div>
+        </div>
+
+        <center>
+            <a th:href="@{'http://localhost:5500/templates/jobDetail.html?id=' + ${jobId}}" class="cta-button">Xem Chi Tiết Công Việc ➜</a>
+        </center>
+
+        <div class="divider"></div>
+
+        <p>Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với bộ phận Tuyển dụng của chúng tôi.</p>
+
+        <p>Hẹn gặp lại bạn trong vòng phỏng vấn!</p>
+
+        <p style="margin-top: 30px; color: #2D3436;">
+            <strong>Trân trọng,</strong><br>
+            Bộ phận Tuyển dụng (HR)<br>
+            <span style="color: #FF6B6B; font-weight: 600;" th:text="${companyName}">Company Name</span>
+        </p>
+    </div>
+
+    <div class="footer">
+        <div class="footer-logo">DG Jobs</div>
+
+        <p>📧 hr@dg-jobs.com | 📞 1900 1234</p>
+        <p>🏢 Tầng 10, Tòa nhà DG Tower, Quận 1, TP.HCM</p>
+
+        <div class="social-links">
+            <a href="#">LinkedIn</a> |
+            <a href="#">Facebook</a> |
+            <a href="#">Website</a>
+        </div>
+
+        <div class="footer-note">
+            <p>Email này được gửi đến <span th:text="${candidateEmail}" style="color: #636E72; font-weight: 600;">candidate@email.com</span></p>
+            <p>© 2025 DG Recruitment. All rights reserved.</p>
+            <p>Bạn nhận được email này vì bạn đã ứng tuyển vào hệ thống của chúng tôi.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
