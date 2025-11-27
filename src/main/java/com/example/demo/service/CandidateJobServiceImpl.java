@@ -44,8 +44,14 @@ public class CandidateJobServiceImpl implements CandidateJobService {
 
         candidateJobRepository.save(application);
 
-        sendMailService.sendEmailToCandidate(candidate.getCandidateId(),jobId);
+        try {
+            sendMailService.sendEmailToCandidate(userId, jobId);
+        } catch (Exception e) {
+            // Chỉ in lỗi ra log server để mình biết, KHÔNG ném lỗi ra ngoài
+            System.err.println("⚠️ Lỗi gửi mail (nhưng vẫn ứng tuyển thành công): " + e.getMessage());
+        }
 
-        return "Ứng tuyển thành công!";
+        // 3. Luôn trả về thành công nếu bước 1 đã xong
+        return "Ứng tuyển thành công! (Vui lòng chờ HR liên hệ)";
     }
 }
