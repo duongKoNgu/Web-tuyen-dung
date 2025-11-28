@@ -1,14 +1,6 @@
 server:
   port: 8080
 
-## Move debug to root level
-#debug: true
-#
-## Move logging to root level
-#logging:
-#  level:
-#    org.springframework.boot.autoconfigure: DEBUG
-
 spring:
   datasource:
     url: jdbc:sqlserver://dgkongu.mssql.somee.com;databaseName=dgkongu;encrypt=true;trustServerCertificate=true;
@@ -24,7 +16,7 @@ spring:
     host: smtp.gmail.com
     port: 465
     username: duongchu868@gmail.com
-    password: "azgl tbvt dgkw qqel"  # Quote the password to be safe
+    password: "azgl tbvt dgkw qqel"
     protocol: smtps
     properties:
       mail:

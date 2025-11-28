@@ -66,7 +66,7 @@ public class JobController {
         int userId = Integer.parseInt(userIdStr);
 
         // 3. Kiểm tra Role và gọi Service tương ứng
-        if ("admin".equals(userService.checkRole(userId))) {
+        if ("Admin".equals(userService.checkRole(userId))) {
             return jobService.getJobsWithFilters(search, status, pageable);
         } else {
             return jobService.getMyJobsWithFilters(userId, search, status, pageable);

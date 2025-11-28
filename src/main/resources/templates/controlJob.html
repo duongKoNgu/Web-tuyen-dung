@@ -167,10 +167,10 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testHome.html">Tìm việc</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
-                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testHome.html">Đăng xuất</a></li>
                 <li><a href="testProfileCandidate.html">Profile</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -215,7 +215,7 @@
                     <option value="Sắp mở">Sắp mở</option>
                     <option value="Đã đóng">Đã đóng</option>
                 </select>
-                <a href="http://localhost:5500/templates/createJob.html" class="btn-create-job">
+                <a href="createJob.html" class="btn-create-job">
                     <i class="fa-solid fa-plus"></i> Tạo Job mới
                 </a>
             </div>
@@ -345,7 +345,7 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'https://web-tuyen-dung-production.up.railway.app/job'; 
+        const API_BASE_URL = 'http://localhost:8080/job'; 
         let currentPage = 0;
         let pageSize = 10;
         let totalPages = 0;
@@ -428,7 +428,7 @@
                     <td>
                         <div class="action-buttons">
                             <button class="btn-action btn-edit" onclick="openEditModal(${job.jobId})" title="Sửa"><i class="fa-solid fa-pen"></i></button>
-                            <a href="http://localhost:5500/templates/jobDetail.html?id=${job.jobId}" class="btn-action btn-view-detail" title="Chi tiết"><i class="fa-solid fa-eye"></i></a>
+                            <a href="jobDetail.html?id=${job.jobId}" class="btn-action btn-view-detail" title="Chi tiết"><i class="fa-solid fa-eye"></i></a>
                             <button class="btn-action btn-delete" onclick="deleteJob(${job.jobId})" title="Xóa"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </td>

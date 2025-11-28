@@ -245,10 +245,10 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testHome.html">Tìm việc</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
-                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testHome.html">Đăng xuất</a></li>
                 <li><a href="testProfileCandidate.html">Cập nhật hồ sơ</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -413,7 +413,7 @@
         });
 
         function loadCandidateData() {
-            axios.get('https://web-tuyen-dung-production.up.railway.app/candidate/profile', {
+            axios.get('http://localhost:8080/candidate/profile', {
                     withCredentials: true
                 })
                 .then(response => {
@@ -614,10 +614,10 @@
             
             let url, method;
             if (isUpdateMode && currentCandidateId) {
-                url = `https://web-tuyen-dung-production.up.railway.app/candidate/updateCandidate/${currentCandidateId}`;
+                url = `http://localhost:8080/candidate/updateCandidate/${currentCandidateId}`;
                 method = 'put'; 
             } else {
-                url = "https://web-tuyen-dung-production.up.railway.app/candidate/add";
+                url = "http://localhost:8080/candidate/add";
                 method = 'post';
             }
 

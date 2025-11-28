@@ -224,10 +224,10 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testHome.html">Tìm việc</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
-                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testHome.html">Đăng xuất</a></li>
                 <li><a href="testProfileCandidate.html">Cập nhật hồ sơ</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -431,7 +431,7 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
             submitBtn.disabled = true;
 
-            axios.post('https://web-tuyen-dung-production.up.railway.app/job/createJob', newJob, {
+            axios.post('http://localhost:8080/job/createJob', newJob, {
                 withCredentials: true
             })
             .then(response => {

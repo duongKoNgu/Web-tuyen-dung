@@ -233,7 +233,7 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Trang chủ</a></li>
+                <li><a href="testHome.html">Trang chủ</a></li>
                 <li><a href="#" class="tab-login active">Đăng nhập</a></li>
             </ul>
         </nav>
@@ -367,7 +367,7 @@
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
         btn.disabled = true;
 
-        axios.get("https://web-tuyen-dung-production.up.railway.app/user/userLogin", {
+        axios.get("http://localhost:8080/user/userLogin", {
             params: {
                 username: userName,
                 password: password
@@ -425,7 +425,7 @@
             role: regRole
         };
 
-        axios.post("https://web-tuyen-dung-production.up.railway.app/user/createUser", newUser, {
+        axios.post("http://localhost:8080/user/createUser", newUser, {
             withCredentials: true
         })
         .then(response => {

@@ -597,9 +597,9 @@
         <nav class="nav">
             <div class="logo"><i class="fa-solid fa-fire-flame-curved"></i> DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#">Khám phá</a></li>
+                <li><a href="testHome.html">Khám phá</a></li>
                 <li><a href="#">Công ty hot</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="testProfileCandidate.html" class="btn-highlight">Profile</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -672,7 +672,7 @@
                 </div>
                 <div class="footer-section">
                     <h3>Dành cho nhà tuyển dụng</h3>
-                    <a href="http://localhost:5500/templates/controlJob.html">Quản lý Job</a>
+                    <a href="controlJob.html">Quản lý Job</a>
                     <a href="controlCandidate.html">Quản lý ứng viên</a>
 
                 </div>
@@ -763,7 +763,7 @@
 
         const fetchJobs = async () => {
             try {
-                const res = await axios.get('https://web-tuyen-dung-production.up.railway.app/job/getAllJob');
+                const res = await axios.get('http://localhost:8080/job/getAllJob');
                 let data = res.data;
                 if (typeof data === 'string') data = JSON.parse(data);
                 if (Array.isArray(data)) {

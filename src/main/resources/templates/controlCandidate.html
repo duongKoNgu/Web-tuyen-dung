@@ -577,10 +577,10 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testHome.html">Tìm việc</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
-                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testHome.html">Đăng xuất</a></li>
                 <li><a href="testProfileCandidate.html">Profile</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -712,7 +712,7 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'https://web-tuyen-dung-production.up.railway.app/candidate';
+        const API_BASE_URL = 'http://localhost:8080/candidate';
         let currentPage = 0;
         let pageSize = 10;
         let totalPages = 0;

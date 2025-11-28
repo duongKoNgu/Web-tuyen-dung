@@ -13,12 +13,9 @@ public class CandidateJobController {
     @Autowired
     private CandidateJobServiceImpl candidateJobServiceImpl;
 
-    // Sửa phương thức: Thêm @CookieValue để đọc trực tiếp cookie
     @PostMapping("/{jobId}")
     public ResponseEntity<String> applyForJob(
             @PathVariable Integer jobId,
-            // 💡 Đọc giá trị của Cookie có tên là "user_session"
-            // required = false: Nếu cookie không tồn tại, nó sẽ được gán là null
             @CookieValue(value = "user_session", required = false) String candidateIdStr) {
 
         // 1. Kiểm tra xem Cookie có tồn tại không (Người dùng đã đăng nhập chưa?)

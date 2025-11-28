@@ -269,10 +269,10 @@
         <nav class="nav">
             <div class="logo">DG Jobs</div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="http://localhost:5500/templates/testHome.html">Tìm việc</a></li>
-                <li><a href="http://localhost:5500/templates/createJob.html">Đăng tin</a></li>
+                <li><a href="testHome.html">Tìm việc</a></li>
+                <li><a href="createJob.html">Đăng tin</a></li>
                 <li><a href="#ve-chung-toi">Về chúng tôi</a></li>
-                <li><a href="http://localhost:5500/templates/testHome.html">Đăng xuất</a></li>
+                <li><a href="testHome.html">Đăng xuất</a></li>
                 <li><a href="testProfileCandidate.html">Hồ sơ cá nhân</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
@@ -280,9 +280,9 @@
     </header>
 
     <div class="breadcrumb">
-        <a href="http://localhost:5500/templates/testHome.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+        <a href="testHome.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
         <span><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem"></i></span>
-        <a href="http://localhost:5500/templates/testHome.html">Tìm việc</a>
+        <a href="testHome.html">Tìm việc</a>
         <span><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem"></i></span>
         <span id="breadcrumb-title" style="color: var(--text-sub);">Chi tiết công việc</span>
     </div>
@@ -430,7 +430,7 @@
 
         const loadJobDetail = async () => {
             try {
-                const response = await axios.get(`https://web-tuyen-dung-production.up.railway.app/job/${jobId}`);
+                const response = await axios.get(`http://localhost:8080/job/${jobId}`);
                 const job = response.data;
 
                 document.getElementById('job-loading').style.display = 'none';
@@ -494,7 +494,7 @@
 
         const loadRelatedJobs = async (level) => {
             try {
-                const response = await axios.get('https://web-tuyen-dung-production.up.railway.app/job/getAllJob');
+                const response = await axios.get('http://localhost:8080/job/getAllJob');
                 const allJobs = response.data;
                 const relatedJobs = allJobs.filter(j => j.level === level && j.jobId != jobId).slice(0, 5);
 
@@ -538,7 +538,7 @@
             btn.disabled = true;
 
             try {
-                const response = await axios.post(`https://web-tuyen-dung-production.up.railway.app/apply/${jobId}`);
+                const response = await axios.post(`http://localhost:8080/apply/${jobId}`);
                 axios.defaults.withCredentials = true;
                 showMessage(response.data);
             } catch (error) {
